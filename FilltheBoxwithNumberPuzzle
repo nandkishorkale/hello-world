@@ -1,0 +1,144 @@
+import java.util.HashSet;
+
+/**
+ * 
+ * Fill the Boxes with Numbers : 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9
+			No Repetition
+			[ ] [ ]            numberA
+			x [ ]              numberB 
+			----------
+			[ ] [ ]            numberC
+			+ [ ] [ ]          numberD
+			----------
+			[ ] [ ]            numberE
+			
+	 numberA * numberB = numberC + numberD = numberE
+		Ans = 	17*4=68+25=93
+			
+ * @author Nandkishor Kale
+ *
+ */
+ 
+public class FilltheBoxwithNumberPuzzle {
+
+	
+	public static void main(String[] args) {
+		  int i, j ;
+				 for (  i=12; i<=48;i++){				 
+					 for (  j=2; j<=9;j++){
+						 checkValidFirst3Numbers(i,j);
+					 }
+					 
+				 }
+		}
+	
+	
+	private static void checkValidFirst3Numbers(int numberA, int numberB){		 
+		 
+		int numberC=numberB*numberA;
+		
+			if(numberC<=99){
+				String tempNumber= ""+numberA+"*"+numberB+"="+numberC;		
+					if(isDigitRepeated(tempNumber)==false){				 
+						findRemaining2Numbers(tempNumber);
+					}
+			}		 
+	}
+	
+	 static boolean isDigitRepeated(String str1) 
+	    { 
+		 if (str1.contains("0")) 
+          return true;    
+		 // Creates an empty hashset 
+		 char[] str = str1.toCharArray(); 
+	     
+	        HashSet<Character> charHashset = new HashSet<Character>(); 
+	  
+	        // Traverse the input array from left to right 
+	        for (int i=0; i<=str.length-1; i++) 
+	        { 
+	            char tempChar = str[i]; 	            
+	    
+	            if (charHashset.contains(tempChar)) 
+	                return true;  
+	            else  
+	                charHashset.add(tempChar); 
+	        } 
+	  
+	        return false; 
+	    } 
+ 
+	 static void  findRemaining2Numbers(String inputNumbers) 
+	    { 
+	  String   remain2Num="";
+	  
+	  String numberD= inputNumbers.substring(inputNumbers.indexOf("=")+1 );
+	  
+		 // find the remaining 2 numbers from 1 to 9 and not in the first 2 numbers,   
+		 remain2Num = getRemaining2Numbers(inputNumbers,  remain2Num); 
+	       
+	       int[] remNumCombination = createCombinationArrayOfLast2Numbers(remain2Num);
+	      findFinalCompleteNumber(inputNumbers,remNumCombination, numberD);
+	     }
+
+
+
+	private static String getRemaining2Numbers(String inputNumbers,  
+			String remain2Num) {
+		 String str1to9="123456789";
+		char[] arr1to9 = str1to9.toCharArray();  
+	        // Traverse the input array from left to right 
+	        for (int i=0; i<=arr1to9.length-1; i++) 
+	        { 
+	            char tempChar = arr1to9[i]; 
+	            if(!inputNumbers.contains(Character.toString(tempChar))){
+	            	remain2Num=remain2Num+Character.toString(tempChar);
+	            }
+	        }
+		return remain2Num;
+	}
+
+
+
+	private static int[] createCombinationArrayOfLast2Numbers(String remain2Num)
+			throws NumberFormatException {
+		char[] last2Numbers = remain2Num.toCharArray();
+	    
+	       //last 2 number is 4 digit, it has total 12 multiple combinations among it, create array of same
+           int[] remNumCombination = new int[12]; 
+           int counter=0;
+	      for (int i=0;i<4;i++){
+	    	for (int j=0;j<4;j++){
+	    		if(!Character.toString(last2Numbers[i]).equals(Character.toString(last2Numbers[j]))){
+	    		remNumCombination[counter++]=Integer.parseInt(Character.toString(last2Numbers[i])+Character.toString(last2Numbers[j]));
+	    		}
+	    	  }	    	  
+	      }
+		return remNumCombination;
+	}
+
+
+
+	private static void  findFinalCompleteNumber(String inputNumbers,
+			int[] remNumCombination, String numberD)
+			throws NumberFormatException {
+		String finalNumber=inputNumbers;
+		//check if last 2 number sum is same as final number 
+	      //and no digit in it is repeated in complete Number
+	      for (int i=0;i<12;i++){
+	    	  int numberE = Integer.parseInt(numberD) + remNumCombination[i];
+	    	   if(numberE <100) {
+			    	  for (int n : remNumCombination) {
+			              if (   !isDigitRepeated(numberE +""+remNumCombination[i]+"") && n == numberE ) {
+			            	  finalNumber= finalNumber+"+"+remNumCombination[i] + "=" + numberE;
+			            	  System.out.println(finalNumber );
+7			                  break;
+			              }
+			          }   
+	    	   }
+	    	  
+	      }
+		 
+	} 
+
+}
