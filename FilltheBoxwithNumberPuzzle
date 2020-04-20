@@ -132,7 +132,7 @@ public class FilltheBoxwithNumberPuzzle {
 			              if (   !isDigitRepeated(numberE +""+remNumCombination[i]+"") && n == numberE ) {
 			            	  finalNumber= finalNumber+"+"+remNumCombination[i] + "=" + numberE;
 			            	  System.out.println(finalNumber );
-7			                  break;
+			                  break;
 			              }
 			          }   
 	    	   }
@@ -140,5 +140,4 @@ public class FilltheBoxwithNumberPuzzle {
 	      }
 		 
 	} 
-
 }
